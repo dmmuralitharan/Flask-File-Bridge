@@ -4,9 +4,27 @@ venv/
 # Migration
 migrations/
 
+# Distribution / packaging
+dist/
+build/
+*.egg-info/
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints
+
+# Python test caches
+*.cover
+*.egg
+.coverage
+.cache
+nosetests.xml
+*.log
+
 # Compiled Python files
 *.pyc
 __pycache__/
+*.pyo
+*.pyd
 
 # IDE or Editor files
 .vscode/
@@ -33,7 +51,12 @@ instance/config.py
 *.sqlite
 
 # Environment variables
-# .env
+.env
 
 # macOS system files
 .DS_Store
+
+# Other files you might want to ignore
+*.DS_Store
+*.pdb
+*.zip
