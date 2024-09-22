@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name="Flask-File-Bridge",
-    version="0.1.2",
+    version="0.1.3",
     author="Muralitharan",
     author_email="dmmuralitharan@gmail.com",
     description="A library for importing and exporting data from Excel and CSV files using Flask ORM.",
