@@ -35,10 +35,6 @@ python setup.py install
 
 You can install these dependencies via `pip`:
 
-```bash
-pip install Flask Flask-SQLAlchemy pandas openpyxl
-```
-
 ## Usage
 
 ### 1. Importing Data
@@ -46,16 +42,18 @@ pip install Flask Flask-SQLAlchemy pandas openpyxl
 Use the `import_data` function to import data from Excel or CSV files into your database.
 
 #### Parameters:
-- `file_by_form`: The form field name used to upload the file.
-- `save_path`: The directory where the uploaded file will be saved.
-- `format`: The format of the file (`excel` or `csv`).
-- `sheet_name_or_index`: Sheet name or index for Excel files.
 - `db_source`: SQLAlchemy database instance.
 - `model`: The SQLAlchemy model class to which the data will be inserted.
+- `file_by_form`: The form field name used to upload the file.
 - `drop_duplicates`: Boolean to indicate whether to drop duplicate rows.
+- `format`: The format of the file (`excel` or `csv`).
+- `sheet_name_or_index`: Sheet name or index for Excel files.
+- `save_path`: The directory where the uploaded file will be saved.
 - `extra_form_columns`: Additional columns to be added from form data.
 - `selected_columns`: List of columns to be selected from the file.
 - `exclude_columns`: List of columns to be excluded from the file.
+- `delete_all_and_import`: The delete all and import used to delete all data in DB table and import new data from file. 
+- `delete_by_columns_and_import`: List of columns filters to delete matching records in the database before importing.
 
 #### Example:
 
@@ -84,7 +82,9 @@ def upload_file():
         drop_duplicates=True,
         extra_form_columns=["status"],
         selected_columns=["username", "email"],
-        exclude_columns=["id"]
+        exclude_columns=["id"],
+        delete_all_and_import=False,
+        delete_by_columns_and_import=["username"]
     )
 
 if __name__ == "__main__":
@@ -96,8 +96,8 @@ if __name__ == "__main__":
 Use the `export_data` function to export data from your database to an Excel or CSV file.
 
 #### Parameters:
-- `model`: The SQLAlchemy model class to be exported.
 - `db_source`: SQLAlchemy database instance.
+- `model`: The SQLAlchemy model class to be exported.
 - `exporting_format`: The format of the exported file (`excel` or `csv`).
 - `output_filename`: The name of the output file.
 - `selected_columns`: List of columns to be included in the export.

@@ -12,8 +12,8 @@ def record_to_dict(record):
 
 
 def export_data(
-    model=None,
     db_source=None,
+    model=None,
     exporting_format="Excel",
     output_filename="exported_data",
     selected_columns = [],
@@ -28,24 +28,24 @@ def export_data(
 
     try:
 
-        # get all records
+        # Get All Records
         records = db_source.session.query(model).all()
 
         data = [record_to_dict(record) for record in records]
 
         df = pd.DataFrame(data)
 
-        # export selected columns
+        # Export Selected Columns
         if len(selected_columns) > 0:
             df = df[selected_columns]
 
-        # exclude selected columns  
+        # Exclude Selected Columns  
         if len(exclude_columns) > 0:
             df = df.drop(columns=exclude_columns)
 
         output = BytesIO()
 
-        # export as excel
+        # Export As Excel
         if exporting_format.lower() == "excel":
             with pd.ExcelWriter(output, engine="openpyxl") as writer:
                 df.to_excel(writer, index=False, sheet_name="Sheet1")
@@ -59,7 +59,7 @@ def export_data(
                 mimetype="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
             )
 
-        # export as csv
+        # Export As CSV
         elif exporting_format.lower() == "csv":
 
             df.to_csv(output, index=False)
@@ -81,35 +81,3 @@ def export_data(
     except Exception as e:
         return jsonify({"message": str(e), "status": 0})
 
-
-# ----------------------------
-
-
-# df = pd.DataFrame(result)
-
-#     if 'id' in df.columns:
-#         df = df.drop(columns=['id'])
-
-#     desired_order = [
-#         'to_store_code', 'to_store_name', 'model_number', 'brand', 'item_name',
-#         'last_28_days_sold_qty', 'current_stock', 'demand_quantity',
-#         'transfer_quantity', 'yet_to_procure_default', 'yet_to_procure_projected',
-#         'projection_days', 'p_approved_flag'
-#     ]
-
-#     if all(col in df.columns for col in desired_order):
-#         df = df[desired_order]
-#     else:
-#         return "Missing one or more columns in the DataFrame", 200
-
-#     excel_filename = "REPORT_" + datetime.now().strftime("%Y-%m-%d-%H%M%S") + str(random.randint(100, 999)) + ".xlsx"
-
-#     output = BytesIO()
-#     with pd.ExcelWriter(output, engine='openpyxl') as writer:
-#         df.to_excel(writer, index=False, sheet_name='Sheet1')
-
-#     output.seek(0)
-
-#     return send_file(output, download_name=excel_filename, as_attachment=True, mimetype='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
-
-# return "Invalid response received", 400
