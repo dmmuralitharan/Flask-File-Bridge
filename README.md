@@ -73,13 +73,13 @@ class User(db.Model):
 @app.route("/upload", methods=["POST"])
 def upload_file():
     return import_data(
-        file_by_form="file",
-        save_path="uploads/",
-        format="excel",
-        sheet_name_or_index=0,
         db_source=db,
         model=User,
+        file_by_form="file",
         drop_duplicates=True,
+        format="excel",
+        sheet_name_or_index=0,
+        save_path="uploads/",
         extra_form_columns=["status"],
         selected_columns=["username", "email"],
         exclude_columns=["id"],
@@ -121,8 +121,8 @@ class User(db.Model):
 @app.route("/export", methods=["GET"])
 def export_users():
     return export_data(
-        model=User,
         db_source=db,
+        model=User,
         exporting_format="csv",
         output_filename="users_export",
         selected_columns=["username", "email"],
